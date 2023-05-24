@@ -1,0 +1,172 @@
+<?xml version="1.0"?>
+<rdf:RDF xmlns="http://www.semanticweb.org/antca/ontologies/2023/4/untitled-ontology-6#"
+     xml:base="http://www.semanticweb.org/antca/ontologies/2023/4/untitled-ontology-6"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:xml="http://www.w3.org/XML/1998/namespace"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     xmlns:untitled-ontology-4="http://www.semanticweb.org/antca/ontologies/2023/4/untitled-ontology-4#">
+    <owl:Ontology rdf:about="http://www.semanticweb.org/antca/ontologies/2023/4/untitled-ontology-6"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Data properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.semanticweb.org/antca/ontologies/2023/4/untitled-ontology-4#descrizione_sintomo -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/antca/ontologies/2023/4/untitled-ontology-4#descrizione_sintomo">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/antca/ontologies/2023/4/untitled-ontology-4#sintomi_anemia"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Classes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.semanticweb.org/antca/ontologies/2023/4/untitled-ontology-4#affaticamento_motorio -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/antca/ontologies/2023/4/untitled-ontology-4#affaticamento_motorio">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/antca/ontologies/2023/4/untitled-ontology-4#sintomi_anemia"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/antca/ontologies/2023/4/untitled-ontology-4#mal_di_testa -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/antca/ontologies/2023/4/untitled-ontology-4#mal_di_testa">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/antca/ontologies/2023/4/untitled-ontology-4#sintomi_anemia"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/antca/ontologies/2023/4/untitled-ontology-4#pallore_pelle -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/antca/ontologies/2023/4/untitled-ontology-4#pallore_pelle">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/antca/ontologies/2023/4/untitled-ontology-4#sintomi_anemia"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/antca/ontologies/2023/4/untitled-ontology-4#sensazione_freddo -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/antca/ontologies/2023/4/untitled-ontology-4#sensazione_freddo">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/antca/ontologies/2023/4/untitled-ontology-4#sintomi_anemia"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/antca/ontologies/2023/4/untitled-ontology-4#sintomi_anemia -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/antca/ontologies/2023/4/untitled-ontology-4#sintomi_anemia"/>
+    
+
+
+    <!-- http://www.semanticweb.org/antca/ontologies/2023/4/untitled-ontology-4#stanchezza -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/antca/ontologies/2023/4/untitled-ontology-4#stanchezza">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/antca/ontologies/2023/4/untitled-ontology-4#sintomi_anemia"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/antca/ontologies/2023/4/untitled-ontology-4#unghie_fragili -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/antca/ontologies/2023/4/untitled-ontology-4#unghie_fragili">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/antca/ontologies/2023/4/untitled-ontology-4#sintomi_anemia"/>
+    </owl:Class>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Individuals
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.semanticweb.org/antca/ontologies/2023/4/untitled-ontology-4#istanza_affaticamento_motorio -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/antca/ontologies/2023/4/untitled-ontology-4#istanza_affaticamento_motorio">
+        <rdf:type rdf:resource="http://www.semanticweb.org/antca/ontologies/2023/4/untitled-ontology-4#affaticamento_motorio"/>
+        <rdf:type rdf:resource="http://www.semanticweb.org/antca/ontologies/2023/4/untitled-ontology-4#sintomi_anemia"/>
+        <untitled-ontology-4:descrizione_sintomo>L&apos;affaticamento motorio è un sintomo caratterizzato da una sensazione di stanchezza o debolezza nei muscoli, che può manifestarsi come una riduzione della forza o della resistenza durante l&apos;attività fisica.</untitled-ontology-4:descrizione_sintomo>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/antca/ontologies/2023/4/untitled-ontology-4#istanza_mal_di_testa -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/antca/ontologies/2023/4/untitled-ontology-4#istanza_mal_di_testa">
+        <rdf:type rdf:resource="http://www.semanticweb.org/antca/ontologies/2023/4/untitled-ontology-4#mal_di_testa"/>
+        <rdf:type rdf:resource="http://www.semanticweb.org/antca/ontologies/2023/4/untitled-ontology-4#sintomi_anemia"/>
+        <untitled-ontology-4:descrizione_sintomo>Il mal di testa, è un sintomo comune caratterizzato da dolore o sensazione di pressione localizzata nella regione della testa o del collo.</untitled-ontology-4:descrizione_sintomo>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/antca/ontologies/2023/4/untitled-ontology-4#istanza_pallore_pelle -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/antca/ontologies/2023/4/untitled-ontology-4#istanza_pallore_pelle">
+        <rdf:type rdf:resource="http://www.semanticweb.org/antca/ontologies/2023/4/untitled-ontology-4#pallore_pelle"/>
+        <rdf:type rdf:resource="http://www.semanticweb.org/antca/ontologies/2023/4/untitled-ontology-4#sintomi_anemia"/>
+        <untitled-ontology-4:descrizione_sintomo>Il pallore della pelle è una condizione in cui la pelle appare più chiara o meno rosata rispetto al normale. Si verifica perché ciò che conferisce il colore alla pelle, l&apos;emoglobina presente nei globuli rossi, potrebbe essere ridotta o mancare.</untitled-ontology-4:descrizione_sintomo>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/antca/ontologies/2023/4/untitled-ontology-4#istanza_sensazione_freddo -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/antca/ontologies/2023/4/untitled-ontology-4#istanza_sensazione_freddo">
+        <rdf:type rdf:resource="http://www.semanticweb.org/antca/ontologies/2023/4/untitled-ontology-4#sensazione_freddo"/>
+        <rdf:type rdf:resource="http://www.semanticweb.org/antca/ontologies/2023/4/untitled-ontology-4#sintomi_anemia"/>
+        <untitled-ontology-4:descrizione_sintomo>La sensazione di freddo è una percezione di basse temperature o di una mancanza di calore. Può essere descritta come una sensazione di freddo eccessivo o una difficoltà a mantenere una temperatura corporea adeguata.</untitled-ontology-4:descrizione_sintomo>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/antca/ontologies/2023/4/untitled-ontology-4#istanza_stanchezza -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/antca/ontologies/2023/4/untitled-ontology-4#istanza_stanchezza">
+        <rdf:type rdf:resource="http://www.semanticweb.org/antca/ontologies/2023/4/untitled-ontology-4#sintomi_anemia"/>
+        <rdf:type rdf:resource="http://www.semanticweb.org/antca/ontologies/2023/4/untitled-ontology-4#stanchezza"/>
+        <untitled-ontology-4:descrizione_sintomo>La stanchezza è una sensazione di affaticamento o esaurimento fisico o mentale che può influire sul livello di energia e sulla capacità di svolgere le normali attività quotidiane. Può manifestarsi come una sensazione generale di debolezza, mancanza di energia, sonnolenza e difficoltà a concentrarsi.</untitled-ontology-4:descrizione_sintomo>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/antca/ontologies/2023/4/untitled-ontology-4#istanza_unghie_fragili -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/antca/ontologies/2023/4/untitled-ontology-4#istanza_unghie_fragili">
+        <rdf:type rdf:resource="http://www.semanticweb.org/antca/ontologies/2023/4/untitled-ontology-4#sintomi_anemia"/>
+        <rdf:type rdf:resource="http://www.semanticweb.org/antca/ontologies/2023/4/untitled-ontology-4#unghie_fragili"/>
+        <untitled-ontology-4:descrizione_sintomo>Le unghie fragili si riferiscono a un&apos;alterazione delle unghie che le rende deboli, sottili, facilmente sfaldabili o suscettibili di rotture. Questa condizione può manifestarsi con un aspetto opaco, unghie che si sfaldano o si spezzano facilmente, o addirittura con la formazione di solchi o striature.</untitled-ontology-4:descrizione_sintomo>
+    </owl:NamedIndividual>
+</rdf:RDF>
+
+
+
+<!-- Generated by the OWL API (version 4.5.25.2023-02-15T19:15:49Z) https://github.com/owlcs/owlapi -->
+
