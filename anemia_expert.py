@@ -4,11 +4,8 @@ from anemia_data import anemia_data
 from laboratory_csp import laboratory_csp
 from anemia_ontology import anemia_ontology
 
-ANEMIA_RANDOM_TEST = 11.1
-ANEMIA_FASTING_TEST = 7
-
-MINIMUM_SKIN_TICKNESS = 10
-MAXIMUM_SKIN_TICKNESS = 100
+ANEMIA_MALE_VALUE = 13.5
+ANEMIA_FEMALE_VALUE = 12
 
 def reset_color():
     print(Fore.RESET)
@@ -24,22 +21,21 @@ def valid_response(response: str):
     return valid
 
 
-def valid_random_test_blood_value(test_value: float):
+def valid_male_test_hb_value(test_value: float):
 
     valid = False
 
-    if test_value > 3.9:
+    if test_value >= 13.5:
         valid = True
 
     return valid
 
+def valid_female_test_hb_value(test_value: float):
 
-def valid_blood_pressure(pressure: int):
+    valid = False
 
-    valid = True
-
-    if pressure <= 60 or pressure > 210:
-        valid = False
+    if test_value >= 12:
+        valid = True
 
     return valid
 
@@ -53,17 +49,8 @@ class anemia_expert(KnowledgeEngine):
         self.number_prints = 0
         self.flag_no_symptoms = 0
 
-        self.lab_glucose_analysis = laboratory_csp("Laboratorio Analisi degli zuccheri nel sangue")
-        self.lab_glucose_analysis.addConstraint(lambda day,hours: hours >= 8 and hours <= 14 if day == "lunedi" else hours >= 15 and hours <= 20 if day == "giovedi" else None ,["day","hours"])
-
-        self.lab_skin_analysis = laboratory_csp("Laboratorio per l'analisi dell'epidermide")
-        self.lab_skin_analysis.addConstraint(lambda day,hours: hours >= 9 and hours <= 13 if day == "martedi" else hours >= 18 and hours <= 21 if day == "venerdi" else hours >= 10 and hours <= 11 if day == "sabato" else None ,["day","hours"])
-
-        self.lab_pressure_analysis = laboratory_csp("Laboratorio per l'analisi della pressione sanguigna")
-        self.lab_pressure_analysis.addConstraint(lambda day,hours: hours >= 10 and hours <= 14 if day == "mercoledi" else hours >= 8 and hours <= 11 if day == "venerdi" else hours >= 15 and hours <= 17 if day == "sabato" else None ,["day","hours"])
-
-        self.lab_insulin_analysis = laboratory_csp("Laboratorio per i test dell'insulina")
-        self.lab_insulin_analysis.addConstraint(lambda day,hours: hours >= 7 and hours <= 12 if day == "giovedi" else hours >= 12 and hours <= 14 if day == "sabato" else None ,["day","hours"])
+        self.lab_hb_analysis = laboratory_csp("Laboratorio Analisi dell'emoglobina nei globuli rossi")
+        self.lab_hb_analysis.addConstraint(lambda day,hours: hours >= 8 and hours <= 14 if day == "lunedi" else hours >= 15 and hours <= 20 if day == "giovedi" else None ,["day","hours"])
 
     def print_facts(self):
         print("\n\nL'agente ragiona con i seguenti fatti: \n")
@@ -108,34 +95,23 @@ class anemia_expert(KnowledgeEngine):
         reset_color()
         self.declare(Fact(chiedi_sintomi="si"))
 
-    @Rule(Fact(chiedi_esami_glicemia="si"))
+    @Rule(Fact(chiedi_esami_emoglobina="si"))
     def rule_2(self):
-        print("Hai eseguito un test casuale del sangue?")
-        casual_blood_test = str(input())
+        print("Hai eseguito un test dell'emoglobina?")
+        hb_test = str(input())
 
-        while valid_response(casual_blood_test) == False:
-            print("Hai eseguito un test casuale del sangue?")
-            casual_blood_test = str(input())
+        while valid_response(hb_test) == False:
+            print("Hai eseguito un test dell'emoglobina?")
+            hb_test = str(input())
 
-        print("Hai eseguito un test del sangue a digiuno?")
-        fasting_blood_test = str(input())
 
-        while valid_response(fasting_blood_test) == False:
-            print("Hai eseguito un test del sangue a digiuno?")
-            fasting_blood_test = str(input())
-
-        if casual_blood_test == "si":
-            self.declare(Fact(test_casuale_sangue="si"))
+        if hb_test == "si":
+            self.declare(Fact(test_emoglobina="si"))
         else:
-            self.declare(Fact(test_casuale_sangue="no"))
+            self.declare(Fact(test_emoglobina="no"))
 
-        if fasting_blood_test == "si":
-            self.declare(Fact(test_digiuno_sangue="si"))
-        else:
-            self.declare(Fact(test_digiuno_sangue="no"))
-
-        if fasting_blood_test == "no" and casual_blood_test == "no":
-            self.declare(Fact(prescrizione_esami_sangue="si"))
+        if  hb_test == "no":
+            self.declare(Fact(prescrizione_esami_emoglobina="si"))
 
     @Rule(Fact(test_casuale_sangue="si"))
     def rule_3(self):

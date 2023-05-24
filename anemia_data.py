@@ -4,14 +4,13 @@ import pandas as pd
 import numpy as np
 
 ANEMIA_DATA_FILE = "anemia.csv"
-TARGET = "Outcome"
+TARGET = "Result"
 
 
 class anemia_data:
 
     def __init__(self):
         self.data = pd.read_csv(ANEMIA_DATA_FILE).dropna()
-        del self.data['Pregnancies']
         self.features_list = list(self.data.columns)
 
     def get_data(self):
@@ -24,37 +23,37 @@ class anemia_data:
         heatmap(self.data.corr(), annot=True)
         plt.show()
 
-    def plot_outcomes(self):
-        plt.style.use("ggplot")
-        self.data["Outcome"].value_counts().plot.bar(
-            title='Outcome', rot=0)
-        plt.show()
+    # def plot_outcomes(self):
+    #     plt.style.use("ggplot")
+    #     self.data["Outcome"].value_counts().plot.bar(
+    #         title='Outcome', rot=0)
+    #     plt.show()
 
-    def plot_ages(self):
-        plt.style.use("ggplot")
-        list_ages = []
+    # def plot_ages(self):
+    #     plt.style.use("ggplot")
+    #     list_ages = []
 
-        for a in self.data["Age"]:
-            for e in range(0, 100, 10):
-                if a >= e and a <= (e+9):
-                    label = "%d-%d" % (e, (e+9))
-                    list_ages.append(label)
-        pd.DataFrame(list_ages).value_counts().plot.bar(
-            title='Ages', rot=0)
-        plt.show()
+    #     for a in self.data["Age"]:
+    #         for e in range(0, 100, 10):
+    #             if a >= e and a <= (e+9):
+    #                 label = "%d-%d" % (e, (e+9))
+    #                 list_ages.append(label)
+    #     pd.DataFrame(list_ages).value_counts().plot.bar(
+    #         title='Ages', rot=0)
+    #     plt.show()
 
-    def plot_BMI(self):
-        plt.style.use("ggplot")
-        list_BMI = []
+    # def plot_BMI(self):
+    #     plt.style.use("ggplot")
+    #     list_BMI = []
 
-        for bmi in self.data["BMI"]:
-            for b in range(0,70,10):
-                if bmi >= b and b <=(bmi+9):
-                    label = "%d-%d"%(b,(b+9))
-                    list_BMI.append(label)
-        pd.DataFrame(list_BMI).value_counts().plot.bar(
-            title='BMI', rot=0)
-        plt.show()
+    #     for bmi in self.data["BMI"]:
+    #         for b in range(0,70,10):
+    #             if bmi >= b and b <=(bmi+9):
+    #                 label = "%d-%d"%(b,(b+9))
+    #                 list_BMI.append(label)
+    #     pd.DataFrame(list_BMI).value_counts().plot.bar(
+    #         title='BMI', rot=0)
+    #     plt.show()
 
     def get_training_data(self):
 
@@ -63,14 +62,14 @@ class anemia_data:
 
         return x, y
     
-    def get_medium_values_diabetes(self):
+    def get_medium_values_anemia(self):
 
         medium_values = {}
-        positives = self.data[self.data['Outcome'] == 1]
+        positives = self.data[self.data['Result'] == 1]
         
-        medium_values['BloodPressure'] = positives['BloodPressure'].mean()
-        medium_values['SkinThickness'] = positives['SkinThickness'].mean()
-        medium_values['Insulin'] = positives['Insulin'].mean()
-        medium_values['BMI'] = positives['BMI'].mean()
+        medium_values['Hemoglobin'] = positives['Hemoglobin'].mean()
+        medium_values['MCH'] = positives['MCH'].mean()
+        medium_values['MCHC'] = positives['MCHC'].mean()
+        medium_values['MCV'] = positives['MCV'].mean()
 
         return medium_values
