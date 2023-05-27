@@ -104,7 +104,6 @@ class anemia_expert(KnowledgeEngine):
             print("Hai eseguito un test dell'emoglobina?")
             hb_test = str(input())
 
-
         if hb_test == "si":
             self.declare(Fact(test_emoglobina="si"))
         else:
@@ -113,249 +112,62 @@ class anemia_expert(KnowledgeEngine):
         if  hb_test == "no":
             self.declare(Fact(prescrizione_esami_emoglobina="si"))
 
-    @Rule(Fact(test_casuale_sangue="si"))
+    @Rule(Fact(test_emoglobina="si"))
     def rule_3(self):
-        print(
-            "Inserisci il valore del test espresso in millimoli su litro [mmol/L]")
-        test_value = float(input())
-
-        while valid_random_test_blood_value(test_value) == False:
-            print("Inserisci il valore del test espresso in millimoli su litro [mmol/L]")
-            test_value = float(input())
-
-        if test_value > ANEMIA_RANDOM_TEST:
-            self.declare(Fact(glicemia_casuale_alta="si"))
-
-        else:
-            self.declare(Fact(glicemia_normale="si"))
-
-    @Rule(Fact(test_digiuno_sangue="si"))
-    def rule_4(self):
-        print(
-            "Inserisci il valore del test espresso in millimoli su litro [mmol/L]")
-        test_value = float(input())
-
-        while valid_random_test_blood_value(test_value) == False:
+        sesso = input("Il soggetto e' maschio o femmina?")
+        if (sesso=='maschio'):
             print(
-                "Inserisci il valore del test espresso in millimoli su litro [mmol/L]")
+                "Inserisci il valore del test [mmol/L]")
             test_value = float(input())
-
-        if test_value > ANEMIA_FASTING_TEST:
-            self.declare(Fact(glicemia_digiuno_alta="si"))
-        else:
-            self.declare(Fact(glicemia_normale="si"))
+            while valid_test_hb_value(test_value) == False:
+                print("Inserisci il valore del test [mmol/L]")
+                test_value = float(input())
+            if test_value < ANEMIA_MALE_VALUE:
+                self.declare(Fact(anemia="si"))
+            else:
+                self.declare(Fact(anemia="no"))
+        elif(sesso=='femmina'):
+            print("Inserisci il valore del test [mmol/L]")
+            test_value = float(input())
+            while valid_test_hb_value(test_value) == False:
+                print("Inserisci il valore del test [mmol/L]")
+                test_value = float(input())
+            if test_value < ANEMIA_FEMALE_VALUE:
+                self.declare(Fact(anemia="si"))
+            else:
+                self.declare(Fact(anemia="no"))
 
     @Rule(Fact(chiedi_sintomi="si"))
     def rule_5(self):
 
-        r1 = self._prototype_ask_symptom("Ti senti molto assetato di solito (sopratutto di notte) ? [si/no]", Fact(molta_sete="si"))
-        r2 = self._prototype_ask_symptom("Ti senti molto stanco? [si/no]", Fact(molto_stanco="si"))
-        r3 = self._prototype_ask_symptom("Stai perdendo peso e massa muscolare? [si/no]", Fact(perdita_massa="si"))
-        r4 = self._prototype_ask_symptom("Senti prurito? [si/no]", Fact(prurito="si"))
-        r5 = self._prototype_ask_symptom("Hai la vista offuscata? [si/no]", Fact(vista_offuscata="si"))
-        r6 = self._prototype_ask_symptom("Consumi spesso bevande/alimenti zuccherati? [si/no]", Fact(bevande_zuccherate="si"))
-        r7 = self._prototype_ask_symptom("Hai fame costantemente? [si/no]", Fact(fame_costante="si"))
-        r8 = self._prototype_ask_symptom("Hai spesso la bocca asciutta? [si/no]", Fact(bocca_asciutta="si"))
+        r1 = self._prototype_ask_symptom("Ti affatichi molto più del solito quando fai attività motoria? [si/no]", Fact(affaticamento_motorio="si"))
+        r2 = self._prototype_ask_symptom("Soffri di dolori alla testa ultimamente? (cefalea) [si/no]", Fact(mal_di_testa="si"))
+        r3 = self._prototype_ask_symptom("La tua pelle e' pallida? [si/no]", Fact(pallore_pelle="si"))
+        r4 = self._prototype_ask_symptom("Avverti una sensazione di freddo? [si/no]", Fact(sensazione_freddo="si"))
+        r5 = self._prototype_ask_symptom("Ti senti molto stanco? [si/no]", Fact(stanchezza="si"))
+        r6 = self._prototype_ask_symptom("Le tue unghie sono molto fragili? [si/no]", Fact(unghie_fragili="si"))
 
-        if r1 == "no" and r2 == "no" and r3 == "no" and r4 == "no" and r5 == "no" and r6 == "no" and r7 == "no" and r8 == "no":
+        if r1 == "no" and r2 == "no" and r3 == "no" and r4 == "no" and r5 == "no" and r6 == "no":
             self.flag_no_symptoms = 1
 
-        self.declare(Fact(chiedi_imc="si"))
-
-
-    @Rule(Fact(chiedi_imc="si"))
-    def ask_bmi(self):
-
-        medium_bmi_anemia = self.mean_anemia_tests['BMI']
-
-        print(Fore.CYAN + "\n\nInserisci l'altezza in centimetri")
-        reset_color()
-        height = int(input())
-
-        while height < 135 or height > 220:
-            print(Fore.CYAN + "Inserisci di nuovo l'altezza in centimetri")
-            reset_color()
-            height = int(input())
-
-        print(Fore.CYAN + "Inserisci il peso in kilogrammi")
-        reset_color()
-        weight = int(input())
-
-        while weight < 30 or weight > 250:
-            print(Fore.CYAN + "Inserisci DI NUOVO il peso in kilogrammi")
-            reset_color()
-            weight = int(input())
-
-        bmi = round(height/(weight*weight), 3)
-
-        if bmi >= medium_bmi_anemia:
-            print(Fore.YELLOW + "Il valore del tuo indice di massa corporea paria a %f e' superiore al valore medio di indice di massa corporea dei diabetici" % bmi)
-            reset_color()
-
-    @Rule(Fact(esami_pressione="si"))
-    def ask_pressure_exam(self):
-        print("Hai fatto l'esame della pressione sanguigna?")
-        response = str(input())
-
-        while valid_response(response) == False:
-            print("Hai fatto l'esame della pressione sanguigna?")
-            response = str(input())
-
-        if response == "si":
-            self.declare(Fact(esame_pressione_eseguito="si"))
-        else:
-            self.declare(Fact(prescrizione_esame_pressione="no"))
-    
-    @Rule(Fact(prescrizione_esame_pressione="no"))
-    def pressure_exams_book(self):
-        self._prototype_lab_booking("gli esami della pressione", self.lab_pressure_analysis)
-
-    @Rule(Fact(esame_pressione_eseguito="si"))
-    def pressure_exam(self):
-
-        medium_pressure = self.mean_anemia_tests['BloodPressure']
-
-        print("Inserisci il valore della pressione sanguigna")
-        pressure_value = int(input())
-
-        while valid_blood_pressure(pressure_value) == False:
-            print("Inserisci il valore della pressione sanguigna")
-            pressure_value = int(input())
-
-        if pressure_value >= medium_pressure:
-            self.declare(Fact(diagnosi_pressione_diabete="si"))
-
-        else:
-            self.declare(Fact(diagnosi_pressione_normale="si"))
-
-    @Rule(Fact(diagnosi_pressione_normale="si"))
-    def normal_blood_pressure(self):
-        print("Il valore della pressione sembra nella norma")
-
-    @Rule(Fact(diagnosi_pressione_diabete="si"))
-    def blood_pressure_anemia(self):
-        print("Il valore della pressione e' maggiore o uguale a quella dei diabetici")
-
-    @Rule(OR(Fact(fame_costante="si"), Fact(bevande_zuccherate="si")))
-    def exam_1(self):
-        self.declare(Fact(chiedi_esami_glicemia="si"))
-
-    @Rule(OR(Fact(vista_offuscata="si"), Fact(molto_stanco="si"), Fact(bocca_asciutta="si")))
-    def exam_2(self):
-        self.declare(Fact(esami_pressione="si"))
-
-    @Rule(AND(Fact(molta_sete="si"), Fact(molto_stanco="si"), Fact(perdita_massa="si"), Fact(prurito="si"), Fact(vista_offuscata="si"), Fact(bevande_zuccherate="si"), Fact(fame_costante="si"), Fact(bocca_asciutta="si")))
+    @Rule(AND(Fact(affaticamento_motorio="si"), Fact(mal_di_testa="si"), Fact(pallore_pelle="si"), Fact(sensazione_freddo="si"), Fact(stanchezza="si"), Fact(unghie_fragili="si")))
     def all_anemia_symptoms(self):
         print("Sembra che tu abbia TUTTI i sintomi del diabete")
         self.declare(Fact(tutti_sintomi="si"))
-        self.declare(Fact(chiedi_esami_glicemia="si"))
-        self.declare(Fact(esami_pressione="si"))
-
-    @Rule(AND(Fact(molta_sete="si"), Fact(molto_stanco="si"), Fact(perdita_massa="si"), Fact(prurito="si"), Fact(vista_offuscata="si"), Fact(bevande_zuccherate="si"), Fact(fame_costante="si"), Fact(bocca_asciutta="si")), Fact(diagnosi_pressione_diabete="si"), Fact(glicemia_digiuno_alta="si"), Fact(glicemia_casuale_alta="si"), Fact(diagnosi_pressione_diabete="si"), Fact(insulina_alta_diabete="si"))
+        self.declare(Fact(chiedi_esami_emoglobina="si"))
+        
+    @Rule(AND(Fact(affaticamento_motorio="si"), Fact(mal_di_testa="si"), Fact(pallore_pelle="si"), Fact(sensazione_freddo="si"), Fact(stanchezza="si"), Fact(unghie_fragili="si"), Fact(anemia="si")))
     def all_anemia_diagnosis_3(self):
-        print(Fore.RED + "Hai sicuramente il diabete")
+        print(Fore.RED + "Hai sicuramente l'anemia")
         reset_color()
-        self.declare(Fact(diabete_tutti_sintomi = "si"))
+        self.declare(Fact(anemia_tutti_sintomi = "si"))
 
-    @Rule(OR(Fact(prurito="si"), Fact(perdita_massa="si")))
-    def ask_itching_test(self):
-        print("Hai fatto un test per misurare lo spessore della piega cutanea del tricipite?")
-        response = str(input())
-
-        while valid_response(response) == False:
-            print("Hai fatto un test per misurare lo spessore della piega cutanea del tricipite?")
-            response = str(input())
-
-        if response == "si":
-            self.declare(Fact(esame_pelle="si"))
-
-        else:
-            self.declare(Fact(prescrizione_esame_pelle="si"))
-    
-    @Rule(Fact(prescrizione_esame_pelle="si"))
-    def skin_exams_book(self):
-
-       self._prototype_lab_booking("gli esami della pelle", self.lab_skin_analysis)
-
-    @Rule(Fact(esame_pelle="si"))
-    def itching_test(self):
-
-        medium_anemia_thickness = self.mean_anemia_tests['SkinThickness']
-        print("Hai detto di aver fatto l'esame per misurare lo spessore della piega cutanea del tricipite")
-
-        print("Inserisci il valore in millimetri")
-        skin_thick = int(input())
-
-        while skin_thick < MINIMUM_SKIN_TICKNESS or skin_thick > MAXIMUM_SKIN_TICKNESS:
-            print("Inserisci DI NUOVO il valore in millimetri")
-            skin_thick = int(input())
-
-        if skin_thick >= medium_anemia_thickness:
-            print(Fore.YELLOW + "Lo spessore della pelle e' maggiore o uguale a quello dei diabetici, prova a fare altri esami!")
-            reset_color()
-
-    @Rule(OR(Fact(fame_costante="si"), Fact(bevande_zuccherate="si")))
-    def ask_insulin_exam(self):
-
-        print("Hai eseguito un test per misurare il valore di insulina")
-        response = str(input())
-
-        while valid_response(response) == False:
-            print("Hai eseguito un test per misurare il valore di insulina")
-            response = str(input())
-
-        if response == "si":
-            self.declare(Fact(test_insulina="si"))
-
-        else:
-            self.declare(Fact(prescrivi_test_insulina="si"))
-
-    @Rule(Fact(test_insulina="si"))
-    def insulin_exam(self):
-
-        medium_insulin_anemia = self.mean_anemia_tests['Insulin']
-
-        print("Insersci il valore dell'insulina espresso in mu U/ml")
-        insulin_value = float(input())
-
-        while insulin_value < 0 or insulin_value > 700:
-            print("Insersci il valore dell'insulina espresso in mu U/ml")
-            insulin_value = float(input())
-
-        if insulin_value >= medium_insulin_anemia:
-            self.declare(Fact(insulina_alta_diabete="si"))
-
-    @Rule(Fact(prescrivi_test_insulina="si"))
-    def insulin_prescription(self):
-        print(Fore.YELLOW + "Dovresti fare il test per misurare l'insulina")
-        reset_color()
-
-        self._prototype_lab_booking("gli esami dell' insulina", self.lab_insulin_analysis)
-
-    @Rule(AND(Fact(insulina_alta_diabete="si"),NOT(Fact(diagnosi_diabete_incerta = "si"))))
-    def diagnosis_4(self):
-        print(Fore.RED + "Hai il diabete")
-        reset_color()
-        self.declare(Fact(diagnosi_diabete="si"))
-
-    @Rule(Fact(prescrizione_esami_sangue="si"))
-    def prescription_1(self):
-        print(Fore.RED + "Dovresti fare gli esami per misurare la glicemia nel sangue!")
-        reset_color()
-
-        self._prototype_lab_booking("gli esami della glicemia nel sangue",self.lab_glucose_analysis)
-
-    @Rule(Fact(glicemia_normale="si"))
-    def normal_blood_glucose(self):
-        print(Fore.GREEN + "La glicemia e' nella norma")
-        reset_color()
-
-    @Rule(NOT(AND(Fact(molta_sete="si"),Fact(molto_stanco="si"),Fact(perdita_massa="si"),Fact(prurito="si"),Fact(vista_offuscata="si"),Fact(bevande_zuccherate="si"),Fact(fame_costante="si"),Fact(bocca_asciutta="si"))))
+    @Rule(NOT(AND(Fact(affaticamento_motorio="si"), Fact(mal_di_testa="si"), Fact(pallore_pelle="si"), Fact(sensazione_freddo="si"), Fact(stanchezza="si"), Fact(unghie_fragili="si"))))
     def not_symptoms(self):
 
         if self.number_prints == 0 and self.flag_no_symptoms == 1:
 
-            print(Fore.GREEN + "Non hai alcun sintomo del diabete")
+            print(Fore.GREEN + "Non hai alcun sintomo dell'anemia")
             self.declare(Fact(niente_sintomi="si"))
             reset_color()
             self.number_prints = self.number_prints + 1
