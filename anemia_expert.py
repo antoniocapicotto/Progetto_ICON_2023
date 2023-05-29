@@ -1,7 +1,7 @@
 from experta import *
 from colorama import Fore
 from anemia_data import anemia_data
-from laboratory_csp import laboratory_csp
+from doctor_csp import doctor_csp
 from anemia_ontology import anemia_ontology
 
 ANEMIA_MALE_VALUE = 13.5
@@ -49,14 +49,14 @@ class anemia_expert(KnowledgeEngine):
         self.number_prints = 0
         self.flag_no_symptoms = 0
 
-        self.lab_hb_analysis = laboratory_csp("Laboratorio Analisi dell'emoglobina nei globuli rossi")
+        self.lab_hb_analysis = doctor_csp("Laboratorio Analisi dell'emoglobina nei globuli rossi")
         self.lab_hb_analysis.addConstraint(lambda day,hours: hours >= 8 and hours <= 14 if day == "lunedi" else hours >= 15 and hours <= 20 if day == "giovedi" else None ,["day","hours"])
 
     def print_facts(self):
         print("\n\nL'agente ragiona con i seguenti fatti: \n")
         print(self.facts)
 
-    def _prototype_lab_booking(self, ask_text: str, lab_selected: laboratory_csp):
+    def _prototype_lab_booking(self, ask_text: str, lab_selected: doctor_csp):
         print("Hai avuto la prescrizione per %s, vuoi prenotare presso uno studio convenzionato? [si/no]" %ask_text)
         response = str(input())
 
