@@ -4,8 +4,21 @@ from anemia_data import anemia_data
 from doctor_csp import doctor_csp
 from anemia_ontology import anemia_ontology
 
+# valori di emoglobina soglia
 ANEMIA_MALE_VALUE = 13.5
 ANEMIA_FEMALE_VALUE = 12
+
+# valori dell'MCH, MCHC, MCV
+MAX_MCH_VALUE = 32 # macrocitica
+MIN_MCH_VALUE = 26 # ipocromica-microcitica
+
+MAX_MCHC_VALUE = 36 # anemia falciforme
+MIN_MCHC_VALUE = 32 # ipocromica
+
+MAX_MCV_VALUE = 100 # macrocitica
+MIN_MCV_VALUE = 80  # microcitica
+
+
 
 def reset_color():
     print(Fore.RESET)
@@ -24,8 +37,8 @@ def valid_response(response: str):
 def valid_male_test_hb_value(test_value: float):
 
     valid = False
-
-    if test_value >= 13.5:
+    # verifico se è anemico
+    if test_value < 13.5:
         valid = True
 
     return valid
@@ -34,7 +47,7 @@ def valid_female_test_hb_value(test_value: float):
 
     valid = False
 
-    if test_value >= 12:
+    if test_value < 12:
         valid = True
 
     return valid
@@ -49,23 +62,23 @@ class anemia_expert(KnowledgeEngine):
         self.number_prints = 0
         self.flag_no_symptoms = 0
 
-        self.lab_hb_analysis = doctor_csp("Laboratorio Analisi dell'emoglobina nei globuli rossi")
-        self.lab_hb_analysis.addConstraint(lambda day,hours: hours >= 8 and hours <= 14 if day == "lunedi" else hours >= 15 and hours <= 20 if day == "giovedi" else None ,["day","hours"])
+        self.doc_analysis = doctor_csp("Studio del medico convenzionato")
+        self.doc_analysis.addConstraint(lambda day,hours: hours >= 8 and hours <= 14 if day == "lunedi" else hours >= 15 and hours <= 20 if day == "giovedi" else None ,["day","hours"])
 
     def print_facts(self):
         print("\n\nL'agente ragiona con i seguenti fatti: \n")
         print(self.facts)
 
-    def _prototype_lab_booking(self, ask_text: str, lab_selected: doctor_csp):
-        print("Hai avuto la prescrizione per %s, vuoi prenotare presso uno studio convenzionato? [si/no]" %ask_text)
+    def _prototype_doc_booking(self, ask_text: str, doc_selected: doctor_csp):
+        print("Vuoi prenotare un appuntamento presso un medico convenzionato? [si/no]" %ask_text)
         response = str(input())
 
         while valid_response(response) == False:
-            print("Hai avuto la prescrizione per %s, vuoi prenotare presso uno studio convenzionato? [si/no]"%ask_text)
+            print("Vuoi prenotare un appuntamento presso un medico convenzionato? [si/no]"%ask_text)
             response = str(input())
         
         if response == "si":
-            first, last = lab_selected.get_availability()
+            first, last = doc_selected.get_availability()
 
             print("Insersci un turno inserendo il numero del turno associato")
             turn_input = int(input())
@@ -74,7 +87,7 @@ class anemia_expert(KnowledgeEngine):
                 print("Insersci un turno inserendo il numero del turno associato")
                 turn_input = int(input())
             
-            lab_selected.print_single_availability(turn_input)
+            doc_selected.print_single_availability(turn_input)
 
     def _prototype_ask_symptom(self, ask_text: str, fact_declared: Fact):
 
@@ -205,9 +218,16 @@ def main_ontology():
 if __name__ == '__main__':
 
     exit_program = False
-
-    print("Benvanuto in Anemia Expert, un sistema esperto per la diagnosi e la cura del diabete di tipo 1")
+# cambiare il printf con un'altra formula di benvenuto
+    print("Benvenuto in Anemia Expert, un sistema esperto per la diagnosi e la cura del diabete di tipo 1")
     while exit_program == False:
+
+# --> chiedere se è maschio o femmina ?
+# --> chiedere i suoi sintomi attuali
+# --> test emoglobina (utilizzare e salvare in una variabile un flag per capire se è maschio o femmina e utilizzarlo per il test) se non l'ha fatto va dal medico altrimenti inserisce il valore 
+# --> dopo esce scritto sei anemico oppure no 
+# --> se è anemico allora continua la diagnosi chiedendo MCH, MCHC e MCV altrimenti se non li ha i valori va dal medico
+# --> chiedere se vuole mostrare dei trattamenti per i suoi sintomi
 
         print("----------->MENU<-----------\n[1] Mostra i possibili sintomi del diabete\n[2] Esegui una diagnosi\n[3] Esci")
         user_choose = None
