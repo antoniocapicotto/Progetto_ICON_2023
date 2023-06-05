@@ -127,9 +127,10 @@ class anemia_expert(KnowledgeEngine):
         print("\n")
         MCV_value=float(input("Inserisci il valore dell'MCV"))
         print("\n")
+        
 
     
-    @Rule(Fact(chiedi_esami_tipo_emoglobina='si'))
+    @Rule(Fact(chiedi_esami_tipo_anemia='si'))
     def rule_7(self):
         print("Hai eseguito i test per MCH, MCHC e MCV?")
         tipo_anemia=str(input())
@@ -175,6 +176,10 @@ class anemia_expert(KnowledgeEngine):
                 self.declare(Fact(anemia="si"))
             else:
                 self.declare(Fact(anemia="no"))
+        # Non fa bene il controllo sul valore dell'emoglobina
+        # OUTPUT (quando è anemico)
+        # Il valore di emoglobina è maggiore del valore minimo
+        # Potresti avere l'anemia
         if(Fact(anemia='no')):
             print(Fore.GREEN+'Il valore di emoglobina è maggiore del valore minimo')
             reset_color()    
