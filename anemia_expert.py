@@ -27,27 +27,20 @@ def valid_response(response: str):
 
     valid = False
     response = response.lower()
-
+    # modificato aggiungendo il sesso nelle valid response
     if response == "si" or response == "no":
         valid = True
+    if response =='m' or response =='f':
+        valid=True
 
     return valid
 
 
-def valid_male_test_hb_value(test_value: float):
+
+def valid_test_hb_value(test_value: float):
 
     valid = False
-    # verifico se è anemico
-    if test_value < 13.5:
-        valid = True
-
-    return valid
-
-def valid_female_test_hb_value(test_value: float):
-
-    valid = False
-
-    if test_value < 12:
+    if test_value <= 20:
         valid = True
 
     return valid
@@ -70,11 +63,11 @@ class anemia_expert(KnowledgeEngine):
         print(self.facts)
 
     def _prototype_doc_booking(self, ask_text: str, doc_selected: doctor_csp):
-        print("Vuoi prenotare un appuntamento presso un medico convenzionato? [si/no]" %ask_text)
+        print("Vuoi prenotare un appuntamento presso un medico convenzionato? [si/no]")
         response = str(input())
 
         while valid_response(response) == False:
-            print("Vuoi prenotare un appuntamento presso un medico convenzionato? [si/no]"%ask_text)
+            print("Vuoi prenotare un appuntamento presso un medico convenzionato? [si/no]")
             response = str(input())
         
         if response == "si":
@@ -123,32 +116,68 @@ class anemia_expert(KnowledgeEngine):
             self.declare(Fact(test_emoglobina="no"))
 
         if  hb_test == "no":
-            self.declare(Fact(prescrizione_esami_emoglobina="si"))
+            self.declare(Fact(prenotazione_turno_medico="si"))
+    
+    @Rule(Fact(test_tipo_anemia='si'))
+    def rule_6(self):
+        print('Inserisci i valori di MCH, MCHC e MCV')
+        MCH_value=float(input("Inserisci il valore dell'MCH"))
+        print("\n")
+        MCHC_value=float(input("Inserisci il valore dell'MCHC"))
+        print("\n")
+        MCV_value=float(input("Inserisci il valore dell'MCV"))
+        print("\n")
 
+    
+    @Rule(Fact(chiedi_esami_tipo_emoglobina='si'))
+    def rule_7(self):
+        print("Hai eseguito i test per MCH, MCHC e MCV?")
+        tipo_anemia=str(input())
+        while valid_response(tipo_anemia) == False:
+            print("Hai eseguito i test per MCH, MCHC e MCV?")
+            tipo_anemia = str(input())
+        if tipo_anemia == "si":
+            self.declare(Fact(test_tipo_anemia="si"))
+        else:
+            self.declare(Fact(test_tipo_anemia="no"))
+        if  tipo_anemia == "no":
+            self.declare(Fact(prenotazione_turno_medico="si"))
+    
+
+    @Rule(Fact(prenotazione_turno_medico="si"))
+    def prenotazione_turno(self):
+        self._prototype_doc_booking("prenotazione dal medico", self.doc_analysis)
+        
+        
     @Rule(Fact(test_emoglobina="si"))
     def rule_3(self):
-        sesso = input("Il soggetto e' maschio o femmina?")
-        if (sesso=='maschio'):
-            print(
-                "Inserisci il valore del test [mmol/L]")
+        
+        sesso = input("Il soggetto e' maschio o femmina? [m/f]\n")
+        while(valid_response(sesso)==False):
+            sesso = input("Il soggetto e' maschio o femmina? [m/f]\n")
+        if (sesso=='m'):
+            print("Inserisci il valore del test")
             test_value = float(input())
             while valid_test_hb_value(test_value) == False:
-                print("Inserisci il valore del test [mmol/L]")
+                print("Inserisci il valore del test")
                 test_value = float(input())
             if test_value < ANEMIA_MALE_VALUE:
                 self.declare(Fact(anemia="si"))
             else:
                 self.declare(Fact(anemia="no"))
-        elif(sesso=='femmina'):
-            print("Inserisci il valore del test [mmol/L]")
+        elif(sesso=='f'):
+            print("Inserisci il valore del test")
             test_value = float(input())
             while valid_test_hb_value(test_value) == False:
-                print("Inserisci il valore del test [mmol/L]")
+                print("Inserisci il valore del test")
                 test_value = float(input())
             if test_value < ANEMIA_FEMALE_VALUE:
                 self.declare(Fact(anemia="si"))
             else:
                 self.declare(Fact(anemia="no"))
+        if(Fact(anemia='no')):
+            print(Fore.GREEN+'Il valore di emoglobina è maggiore del valore minimo')
+            reset_color()    
 
     @Rule(Fact(chiedi_sintomi="si"))
     def rule_5(self):
@@ -161,17 +190,17 @@ class anemia_expert(KnowledgeEngine):
         r6 = self._prototype_ask_symptom("Le tue unghie sono molto fragili? [si/no]", Fact(unghie_fragili="si"))
 
         if r1 == "no" and r2 == "no" and r3 == "no" and r4 == "no" and r5 == "no" and r6 == "no":
-            self.flag_no_symptoms = 1
+            self.flag_no_symptoms = 1 # non ci sono i sintomi
 
     @Rule(AND(Fact(affaticamento_motorio="si"), Fact(mal_di_testa="si"), Fact(pallore_pelle="si"), Fact(sensazione_freddo="si"), Fact(stanchezza="si"), Fact(unghie_fragili="si")))
     def all_anemia_symptoms(self):
-        print("Sembra che tu abbia TUTTI i sintomi del diabete")
+        print("Sembra che tu abbia TUTTI i sintomi dell'anemia")
         self.declare(Fact(tutti_sintomi="si"))
         self.declare(Fact(chiedi_esami_emoglobina="si"))
         
     @Rule(AND(Fact(affaticamento_motorio="si"), Fact(mal_di_testa="si"), Fact(pallore_pelle="si"), Fact(sensazione_freddo="si"), Fact(stanchezza="si"), Fact(unghie_fragili="si"), Fact(anemia="si")))
     def all_anemia_diagnosis_3(self):
-        print(Fore.RED + "Hai sicuramente l'anemia")
+        print(Fore.RED + "Potresti avere l'anemia")
         reset_color()
         self.declare(Fact(anemia_tutti_sintomi = "si"))
 
@@ -185,14 +214,18 @@ class anemia_expert(KnowledgeEngine):
             reset_color()
             self.number_prints = self.number_prints + 1
 
-    @Rule(NOT(OR(Fact(diagnosi_diabete="si"),Fact(diabete_tutti_sintomi = "si"),Fact(tutti_sintomi="si"))))
+    @Rule(NOT(OR(Fact(diagnosi_anemia="si"),Fact(anemia_tutti_sintomi = "si"),Fact(tutti_sintomi="si"))))
     def intermediate_case(self):
 
         if self.flag_no_symptoms != 1:
 
-            print(Fore.YELLOW + "Potresti avere il diabete, rivolgiti ad un medico")
-            self.declare(Fact(diagnosi_diabete_incerta = "si"))
+            print(Fore.YELLOW + "Potresti avere l'anemia")
+            self.declare(Fact(diagnosi_anemia_incerta = "si"))
             reset_color()
+            # impostare il fact del test dell'emoglobina a si
+            self.declare(Fact(chiedi_esami_emoglobina='si'))
+
+        
 
 def main_agent():
     expert_agent = anemia_expert()
@@ -219,17 +252,19 @@ if __name__ == '__main__':
 
     exit_program = False
 # cambiare il printf con un'altra formula di benvenuto
-    print("Benvenuto in Anemia Expert, un sistema esperto per la diagnosi e la cura del diabete di tipo 1")
+    print("Benvenuto in Anemia Expert, un sistema esperto per la diagnosi e la cura del anemia")
     while exit_program == False:
 
 # --> chiedere se è maschio o femmina ?
 # --> chiedere i suoi sintomi attuali
-# --> test emoglobina (utilizzare e salvare in una variabile un flag per capire se è maschio o femmina e utilizzarlo per il test) se non l'ha fatto va dal medico altrimenti inserisce il valore 
+# --> test emoglobina (utilizzare e salvare in una variabile un flag 
+# per capire se è maschio o femmina e utilizzarlo per il test) 
+# se non l'ha fatto va dal medico altrimenti inserisce il valore 
 # --> dopo esce scritto sei anemico oppure no 
 # --> se è anemico allora continua la diagnosi chiedendo MCH, MCHC e MCV altrimenti se non li ha i valori va dal medico
 # --> chiedere se vuole mostrare dei trattamenti per i suoi sintomi
 
-        print("----------->MENU<-----------\n[1] Mostra i possibili sintomi del diabete\n[2] Esegui una diagnosi\n[3] Esci")
+        print("\n[1] Mostra i possibili sintomi del'anemia\n[2] Esegui una diagnosi\n[3] Esci")
         user_choose = None
 
         try:

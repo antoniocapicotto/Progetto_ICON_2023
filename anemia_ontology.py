@@ -8,14 +8,13 @@ class anemia_ontology:
 
     def get_symptoms_descriptions(self):
         dict_symptoms_onto = {}
-
         for i in self.ontology.individuals():
             dict_symptoms_onto[str(i)] = i.descrizione_sintomo
 
         for k in dict_symptoms_onto.keys():
 
             k1 = k
-            k1 = k1.replace("anemia_symptoms.istanza_","")
+            k1 = k1.replace("untitled-ontology-4.istanza_","")
             self.dict_symptoms[k1] = dict_symptoms_onto[k]
 
 
@@ -34,3 +33,6 @@ class anemia_ontology:
 
         return dict_nums_symptoms, dict_nums_keys
 
+#ontologia = anemia_ontology()
+#ontologia.get_symptoms_descriptions()
+#ontologia.print_symptoms()
