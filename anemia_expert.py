@@ -58,6 +58,10 @@ class anemia_expert(KnowledgeEngine):
 
         self.doc_analysis = doctor_csp("Studio del medico convenzionato")
         self.doc_analysis.addConstraint(lambda day,hours: hours >= 8 and hours <= 14 if day == "lunedi" else hours >= 15 and hours <= 20 if day == "giovedi" else None ,["day","hours"])
+        self.pharmacy_analysis = pharmacy_csp()
+        self.pharmacy_analysis.addConstraint(lambda farmaco, quantita: quantita <= 2 if farmaco in [solution['farmaci'] for solution in self.availability] else None ,["farmaci","quantita"])
+
+
 
     def print_facts(self):
         print("\n\nL'agente ragiona con i seguenti fatti: \n")
@@ -223,9 +227,6 @@ class anemia_expert(KnowledgeEngine):
                 test_value = float(input())
             if test_value < ANEMIA_MALE_VALUE:
                 self.declare(Fact(anemia="si"))
-                self.declare(Fact(chiedi_MCH='si'))
-                self.declare(Fact(chiedi_MCHC='si'))
-                self.declare(Fact(chiedi_MCV='si'))
             else:
                 self.declare(Fact(anemia="no"))
         elif(sesso=='f'):
@@ -236,18 +237,52 @@ class anemia_expert(KnowledgeEngine):
                 test_value = float(input())
             if test_value < ANEMIA_FEMALE_VALUE:
                 self.declare(Fact(anemia="si"))
-                self.declare(Fact(chiedi_MCH='si'))
-                self.declare(Fact(chiedi_MCHC='si'))
-                self.declare(Fact(chiedi_MCV='si'))
             else:
                 self.declare(Fact(anemia="no"))
+        
+
+        if(Fact(anemia='si')):
+            self.declare(Fact(chiedi_MCH='si'))
+            self.declare(Fact(chiedi_MCHC='si'))
+            self.declare(Fact(chiedi_MCV='si'))
+            self.declare(Fact(chiedi_prenotazione_farmaci='si'))
+
+
+
         # Non fa bene il controllo sul valore dell'emoglobina
         # OUTPUT (quando è anemico)
         # Il valore di emoglobina è maggiore del valore minimo
         # Potresti avere l'anemia
         if(Fact(anemia='no')):
             print(Fore.GREEN+'Il valore di emoglobina è maggiore del valore minimo')
-            reset_color()    
+            reset_color()
+            
+    @Rule(Fact(chiedi_prenotazione_farmaci='si'))
+    def rule_8(self):
+        prenota_farmaci("prenotazione farmaci",self.pharmacy_analysis)
+        
+
+
+    def prenota_farmaci(self, ask_text: str, pharmacy_selected: pharmacy_csp):
+        print("Vuoi prenotare farmaci presso una farmacia convenzionata? [si/no]")
+        response = str(input())
+
+        while valid_response(response) == False:
+            print("Vuoi prenotare farmaci presso una farmacia convenzionata? [si/no]")
+            response = str(input())
+        
+        if response == "si":
+            first, last = pharmacy_selected.get_availability()
+
+            print("Insersci un turno inserendo il numero del turno associato")
+            turn_input = int(input())
+
+            while turn_input < first or turn_input > last:
+                print("Insersci un turno inserendo il numero del turno associato")
+                turn_input = int(input())
+            
+            doc_selected.print_single_availability(turn_input)
+
 
     @Rule(Fact(chiedi_sintomi="si"))
     def rule_5(self):
