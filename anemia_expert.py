@@ -2,6 +2,7 @@ from experta import *
 from colorama import Fore
 from anemia_data import anemia_data
 from doctor_csp import doctor_csp
+from pharmacy_csp import pharmacy_csp
 from anemia_ontology import anemia_ontology
 
 # valori di emoglobina soglia
@@ -117,32 +118,90 @@ class anemia_expert(KnowledgeEngine):
 
         if  hb_test == "no":
             self.declare(Fact(prenotazione_turno_medico="si"))
-    
-    @Rule(Fact(test_tipo_anemia='si'))
-    def rule_6(self):
-        print('Inserisci i valori di MCH, MCHC e MCV')
-        MCH_value=float(input("Inserisci il valore dell'MCH"))
-        print("\n")
-        MCHC_value=float(input("Inserisci il valore dell'MCHC"))
-        print("\n")
-        MCV_value=float(input("Inserisci il valore dell'MCV"))
-        print("\n")
-        
 
+    @Rule(Fact(chedi_MCH='si'))
+    def ask_MCH(self):
+        print('Inserisci il valore di MCH')
+        MCH_value=float(input("Inserisci il valore di MCH"))   
+        if(MCH_value<MIN_MCH_VALUE):
+            print("potresti avere l\'anemia microcitica")
+        elif(MCH_value>MAX_MCH_VALUE):
+            print("potresti avere l\'anemia macrocitica")
+        else:
+            print("i valori sono nella norma")
+
+
+
+    @Rule(Fact(chedi_MCHC='si'))
+    def ask_MCHC(self):
+        print('Inserisci il valore di MCHC')
+        MCHC_value=float(input("Inserisci il valore di MCHC"))   
+        if(MCHC_value<MIN_MCHC_VALUE):
+            print("potresti avere l\'anemia ipocromica")
+        elif(MCHC_value>MAX_MCHC_VALUE):
+            print("potresti avere l\'anemia falciforme")
+        else:
+            print("i valori sono nella norma")
+    
+    @Rule(Fact(chedi_MCV='si'))
+    def ask_MCV(self):
+        print('Inserisci il valore di MCV')
+        MCV_value=float(input("Inserisci il valore di MCV"))   
+        if(MCV_value<MIN_MCV_VALUE):
+            print("potresti avere l\'anemia microcitica")
+        elif(MCV_value>MAX_MCV_VALUE):
+            print("potresti avere l\'anemia macrocitica")
+        else:
+            print("i valori sono nella norma")
     
     @Rule(Fact(chiedi_esami_tipo_anemia='si'))
     def rule_7(self):
-        print("Hai eseguito i test per MCH, MCHC e MCV?")
-        tipo_anemia=str(input())
-        while valid_response(tipo_anemia) == False:
-            print("Hai eseguito i test per MCH, MCHC e MCV?")
-            tipo_anemia = str(input())
-        if tipo_anemia == "si":
-            self.declare(Fact(test_tipo_anemia="si"))
+        # chiedi se ha eseguito un test per l'MCH e se non lo fa , lui prenota il medico
+        print("Hai eseguito un test dell\'MCH")
+        mch_test = str(input())
+
+        while valid_response(mch_test) == False:
+            print("Hai eseguito un test dell\'MCH")
+            mch_test = str(input())
+
+        if mch_test == "si":
+            self.declare(Fact(chiedi_MCH="si"))
         else:
-            self.declare(Fact(test_tipo_anemia="no"))
-        if  tipo_anemia == "no":
+            self.declare(Fact(chedi_MCH="no"))
+
+        if  mch_test == "no":
             self.declare(Fact(prenotazione_turno_medico="si"))
+        # chiedi se ha eseguito un test per l'MCHC e se non lo fa , lui prenota il medico
+        print("Hai eseguito un test dell\'MCHC")
+        mchc_test = str(input())
+
+        while valid_response(mchc_test) == False:
+            print("Hai eseguito un test dell\'MCHC")
+            mchc_test = str(input())
+
+        if mchc_test == "si":
+            self.declare(Fact(chiedi_MCHC="si"))
+        else:
+            self.declare(Fact(chedi_MCHC="no"))
+
+        if  mchc_test == "no":
+            self.declare(Fact(prenotazione_turno_medico="si"))
+        # chiedi se ha eseguito un test per l'MCV e se non lo fa , lui prenota il medico
+        print("Hai eseguito un test dell\'MCV")
+        mcv_test = str(input())
+
+        while valid_response(mcv_test) == False:
+            print("Hai eseguito un test dell\'MCV")
+            mcv_test = str(input())
+
+        if mcv_test == "si":
+            self.declare(Fact(chiedi_MCV="si"))
+        else:
+            self.declare(Fact(chedi_MCV="no"))
+
+        if  mcv_test == "no":
+            self.declare(Fact(prenotazione_turno_medico="si"))
+        
     
 
     @Rule(Fact(prenotazione_turno_medico="si"))
@@ -164,6 +223,9 @@ class anemia_expert(KnowledgeEngine):
                 test_value = float(input())
             if test_value < ANEMIA_MALE_VALUE:
                 self.declare(Fact(anemia="si"))
+                self.declare(Fact(chiedi_MCH='si'))
+                self.declare(Fact(chiedi_MCHC='si'))
+                self.declare(Fact(chiedi_MCV='si'))
             else:
                 self.declare(Fact(anemia="no"))
         elif(sesso=='f'):
@@ -174,6 +236,9 @@ class anemia_expert(KnowledgeEngine):
                 test_value = float(input())
             if test_value < ANEMIA_FEMALE_VALUE:
                 self.declare(Fact(anemia="si"))
+                self.declare(Fact(chiedi_MCH='si'))
+                self.declare(Fact(chiedi_MCHC='si'))
+                self.declare(Fact(chiedi_MCV='si'))
             else:
                 self.declare(Fact(anemia="no"))
         # Non fa bene il controllo sul valore dell'emoglobina
