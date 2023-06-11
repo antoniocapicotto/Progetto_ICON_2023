@@ -351,11 +351,11 @@ def main_ontology():
     do.get_symptoms_descriptions()
     symptoms, keys_symptoms = do.print_symptoms()
 
-    print("\nSeleziona il sintomo di cui vuoi conosere la descrizione, inserisci il numero del sintomo")
+    print("\nSeleziona il sintomo di cui vuoi conosere la descrizione e un possibile trattamento, inserisci il numero del sintomo")
     symptom_number = int(input())
 
     while symptom_number not in symptoms.keys():
-        print("\nSeleziona il sintomo di cui vuoi conosere la descrizione, inserisci il numero del sintomo")
+        print("\nSeleziona il sintomo di cui vuoi conosere la descrizione e un possibile trattamento, inserisci il numero del sintomo")
         symptom_number = int(input())
             
     print("Sintomo: %s, descrizione: %s"%(keys_symptoms[symptom_number]," ".join(symptoms[symptom_number])))

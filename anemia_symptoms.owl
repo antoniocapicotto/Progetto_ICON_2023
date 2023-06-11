@@ -112,7 +112,8 @@
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/antca/ontologies/2023/4/untitled-ontology-4#istanza_affaticamento_motorio">
         <rdf:type rdf:resource="http://www.semanticweb.org/antca/ontologies/2023/4/untitled-ontology-4#affaticamento_motorio"/>
         <rdf:type rdf:resource="http://www.semanticweb.org/antca/ontologies/2023/4/untitled-ontology-4#sintomi_anemia"/>
-        <untitled-ontology-4:descrizione_sintomo>L&apos;affaticamento motorio è un sintomo caratterizzato da una sensazione di stanchezza o debolezza nei muscoli, che può manifestarsi come una riduzione della forza o della resistenza durante l&apos;attività fisica.</untitled-ontology-4:descrizione_sintomo>
+        <untitled-ontology-4:descrizione_sintomo>L&apos;affaticamento motorio è un sintomo caratterizzato da una sensazione di stanchezza o debolezza nei muscoli, che può manifestarsi come una riduzione della forza o della resistenza durante l&apos;attività fisica.
+Possibile Trattamento: vitamina C</untitled-ontology-4:descrizione_sintomo>
     </owl:NamedIndividual>
     
 
@@ -122,7 +123,8 @@
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/antca/ontologies/2023/4/untitled-ontology-4#istanza_mal_di_testa">
         <rdf:type rdf:resource="http://www.semanticweb.org/antca/ontologies/2023/4/untitled-ontology-4#mal_di_testa"/>
         <rdf:type rdf:resource="http://www.semanticweb.org/antca/ontologies/2023/4/untitled-ontology-4#sintomi_anemia"/>
-        <untitled-ontology-4:descrizione_sintomo>Il mal di testa, è un sintomo comune caratterizzato da dolore o sensazione di pressione localizzata nella regione della testa o del collo.</untitled-ontology-4:descrizione_sintomo>
+        <untitled-ontology-4:descrizione_sintomo>Il mal di testa, è un sintomo comune caratterizzato da dolore o sensazione di pressione localizzata nella regione della testa o del collo.
+Possibile trattamento: paracetamolo</untitled-ontology-4:descrizione_sintomo>
     </owl:NamedIndividual>
     
 
@@ -132,7 +134,8 @@
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/antca/ontologies/2023/4/untitled-ontology-4#istanza_pallore_pelle">
         <rdf:type rdf:resource="http://www.semanticweb.org/antca/ontologies/2023/4/untitled-ontology-4#pallore_pelle"/>
         <rdf:type rdf:resource="http://www.semanticweb.org/antca/ontologies/2023/4/untitled-ontology-4#sintomi_anemia"/>
-        <untitled-ontology-4:descrizione_sintomo>Il pallore della pelle è una condizione in cui la pelle appare più chiara o meno rosata rispetto al normale. Si verifica perché ciò che conferisce il colore alla pelle, l&apos;emoglobina presente nei globuli rossi, potrebbe essere ridotta o mancare.</untitled-ontology-4:descrizione_sintomo>
+        <untitled-ontology-4:descrizione_sintomo>Il pallore della pelle è una condizione in cui la pelle appare più chiara o meno rosata rispetto al normale. Si verifica perché ciò che conferisce il colore alla pelle, l&apos;emoglobina presente nei globuli rossi, potrebbe essere ridotta o mancare.
+Possibile trattamento: integratore di ferro</untitled-ontology-4:descrizione_sintomo>
     </owl:NamedIndividual>
     
 
@@ -142,7 +145,8 @@
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/antca/ontologies/2023/4/untitled-ontology-4#istanza_sensazione_freddo">
         <rdf:type rdf:resource="http://www.semanticweb.org/antca/ontologies/2023/4/untitled-ontology-4#sensazione_freddo"/>
         <rdf:type rdf:resource="http://www.semanticweb.org/antca/ontologies/2023/4/untitled-ontology-4#sintomi_anemia"/>
-        <untitled-ontology-4:descrizione_sintomo>La sensazione di freddo è una percezione di basse temperature o di una mancanza di calore. Può essere descritta come una sensazione di freddo eccessivo o una difficoltà a mantenere una temperatura corporea adeguata.</untitled-ontology-4:descrizione_sintomo>
+        <untitled-ontology-4:descrizione_sintomo>La sensazione di freddo è una percezione di basse temperature o di una mancanza di calore. Può essere descritta come una sensazione di freddo eccessivo o una difficoltà a mantenere una temperatura corporea adeguata.
+Possibile trattamento: vitamina B12</untitled-ontology-4:descrizione_sintomo>
     </owl:NamedIndividual>
     
 
@@ -152,7 +156,8 @@
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/antca/ontologies/2023/4/untitled-ontology-4#istanza_stanchezza">
         <rdf:type rdf:resource="http://www.semanticweb.org/antca/ontologies/2023/4/untitled-ontology-4#sintomi_anemia"/>
         <rdf:type rdf:resource="http://www.semanticweb.org/antca/ontologies/2023/4/untitled-ontology-4#stanchezza"/>
-        <untitled-ontology-4:descrizione_sintomo>La stanchezza è una sensazione di affaticamento o esaurimento fisico o mentale che può influire sul livello di energia e sulla capacità di svolgere le normali attività quotidiane. Può manifestarsi come una sensazione generale di debolezza, mancanza di energia, sonnolenza e difficoltà a concentrarsi.</untitled-ontology-4:descrizione_sintomo>
+        <untitled-ontology-4:descrizione_sintomo>La stanchezza è una sensazione di affaticamento o esaurimento fisico o mentale che può influire sul livello di energia e sulla capacità di svolgere le normali attività quotidiane. Può manifestarsi come una sensazione generale di debolezza, mancanza di energia, sonnolenza e difficoltà a concentrarsi.
+Possibile trattamento: vitamina C</untitled-ontology-4:descrizione_sintomo>
     </owl:NamedIndividual>
     
 
@@ -162,7 +167,8 @@
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/antca/ontologies/2023/4/untitled-ontology-4#istanza_unghie_fragili">
         <rdf:type rdf:resource="http://www.semanticweb.org/antca/ontologies/2023/4/untitled-ontology-4#sintomi_anemia"/>
         <rdf:type rdf:resource="http://www.semanticweb.org/antca/ontologies/2023/4/untitled-ontology-4#unghie_fragili"/>
-        <untitled-ontology-4:descrizione_sintomo>Le unghie fragili si riferiscono a un&apos;alterazione delle unghie che le rende deboli, sottili, facilmente sfaldabili o suscettibili di rotture. Questa condizione può manifestarsi con un aspetto opaco, unghie che si sfaldano o si spezzano facilmente, o addirittura con la formazione di solchi o striature.</untitled-ontology-4:descrizione_sintomo>
+        <untitled-ontology-4:descrizione_sintomo>Le unghie fragili si riferiscono a un&apos;alterazione delle unghie che le rende deboli, sottili, facilmente sfaldabili o suscettibili di rotture. Questa condizione può manifestarsi con un aspetto opaco, unghie che si sfaldano o si spezzano facilmente, o addirittura con la formazione di solchi o striature.
+Possibile trattamento: integratore_biotina</untitled-ontology-4:descrizione_sintomo>
     </owl:NamedIndividual>
 </rdf:RDF>
 
