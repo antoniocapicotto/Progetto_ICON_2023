@@ -59,7 +59,9 @@ class anemia_expert(KnowledgeEngine):
         self.doc_analysis = doctor_csp("Studio del medico convenzionato")
         self.doc_analysis.addConstraint(lambda day,hours: hours >= 8 and hours <= 14 if day == "lunedi" else hours >= 15 and hours <= 20 if day == "giovedi" else None ,["day","hours"])
         self.pharmacy_analysis = pharmacy_csp()
-        self.pharmacy_analysis.addConstraint(lambda farmaco, quantita: quantita <= 2 if farmaco in [solution['farmaci'] for solution in self.availability] else None ,["farmaci","quantita"])
+        self.pharmacy_analysis.addConstraint(lambda farmaco, quantita: quantita <= 2 if farmaco in ["vitamina_b12", "integratore_ferro", "paracetamolo", "integratore_biotina", "vitamina_c"] else None, ["farmaci", "quantita"])
+
+
 
 
 
@@ -256,11 +258,6 @@ class anemia_expert(KnowledgeEngine):
         if(Fact(anemia='no')):
             print(Fore.GREEN+'Il valore di emoglobina è maggiore del valore minimo')
             reset_color()
-            
-    @Rule(Fact(chiedi_prenotazione_farmaci='si'))
-    def rule_8(self):
-        prenota_farmaci("prenotazione farmaci",self.pharmacy_analysis)
-        
 
 
     def prenota_farmaci(self, ask_text: str, pharmacy_selected: pharmacy_csp):
@@ -270,18 +267,28 @@ class anemia_expert(KnowledgeEngine):
         while valid_response(response) == False:
             print("Vuoi prenotare farmaci presso una farmacia convenzionata? [si/no]")
             response = str(input())
-        
+
         if response == "si":
-            first, last = pharmacy_selected.get_availability()
+            choices = pharmacy_selected.prenota_farmaco()
 
-            print("Insersci un turno inserendo il numero del turno associato")
-            turn_input = int(input())
+            if len(choices) > 0:
 
-            while turn_input < first or turn_input > last:
-                print("Insersci un turno inserendo il numero del turno associato")
-                turn_input = int(input())
+                print("Inserisci il numero del farmaco da prenotare")
+                choice_input = int(input())
+
+                while choice_input < 1 or choice_input > len(choices):
+                    print("Inserisci un numero valido")
+                    choice_input = int(input())
+
+                selected_farmaco = choices[choice_input - 1]
+                print("Hai prenotato il farmaco: %s" % selected_farmaco)
+            else:
+                print("Nessun farmaco disponibile.")
             
-            doc_selected.print_single_availability(turn_input)
+    @Rule(Fact(chiedi_prenotazione_farmaci='si'))
+    def rule_8(self):
+        self.prenota_farmaci("prenotazione farmaci",self.pharmacy_analysis)
+        
 
 
     @Rule(Fact(chiedi_sintomi="si"))
