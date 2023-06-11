@@ -247,6 +247,7 @@ class anemia_expert(KnowledgeEngine):
             self.declare(Fact(chiedi_MCH='si'))
             self.declare(Fact(chiedi_MCHC='si'))
             self.declare(Fact(chiedi_MCV='si'))
+            # viene fatto skippando i fact precedenti
             self.declare(Fact(chiedi_prenotazione_farmaci='si'))
 
 
@@ -306,7 +307,8 @@ class anemia_expert(KnowledgeEngine):
 
     @Rule(AND(Fact(affaticamento_motorio="si"), Fact(mal_di_testa="si"), Fact(pallore_pelle="si"), Fact(sensazione_freddo="si"), Fact(stanchezza="si"), Fact(unghie_fragili="si")))
     def all_anemia_symptoms(self):
-        print("Sembra che tu abbia TUTTI i sintomi dell'anemia")
+        print(Fore.RED+"Sembra che tu abbia TUTTI i sintomi dell'anemia")
+        reset_color()
         self.declare(Fact(tutti_sintomi="si"))
         self.declare(Fact(chiedi_esami_emoglobina="si"))
         
@@ -334,7 +336,6 @@ class anemia_expert(KnowledgeEngine):
             print(Fore.YELLOW + "Potresti avere l'anemia")
             self.declare(Fact(diagnosi_anemia_incerta = "si"))
             reset_color()
-            # impostare il fact del test dell'emoglobina a si
             self.declare(Fact(chiedi_esami_emoglobina='si'))
 
         
@@ -366,15 +367,6 @@ if __name__ == '__main__':
 # cambiare il printf con un'altra formula di benvenuto
     print("Benvenuto in Anemia Expert, un sistema esperto per la diagnosi e la cura del anemia")
     while exit_program == False:
-
-# --> chiedere se è maschio o femmina ?
-# --> chiedere i suoi sintomi attuali
-# --> test emoglobina (utilizzare e salvare in una variabile un flag 
-# per capire se è maschio o femmina e utilizzarlo per il test) 
-# se non l'ha fatto va dal medico altrimenti inserisce il valore 
-# --> dopo esce scritto sei anemico oppure no 
-# --> se è anemico allora continua la diagnosi chiedendo MCH, MCHC e MCV altrimenti se non li ha i valori va dal medico
-# --> chiedere se vuole mostrare dei trattamenti per i suoi sintomi
 
         print("\n[1] Mostra i possibili sintomi del'anemia\n[2] Esegui una diagnosi\n[3] Esci")
         user_choose = None
