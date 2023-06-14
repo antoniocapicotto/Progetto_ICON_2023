@@ -65,7 +65,7 @@ class anemia_logistic_regression(anemia_model):
 
         x, y = data.get_training_data()
         anemia_model.__init__(self, LogisticRegression(
-            max_iter=iterations), x, y, {}, test_size)
+            max_iter=int(iterations)), x, y, {}, test_size)
 
         self.test_size = test_size
 
@@ -110,7 +110,7 @@ class anemia_decision_tree(anemia_model):
         x, y = data.get_training_data()
 
         anemia_model.__init__(self, tree.DecisionTreeClassifier(
-            max_depth=max_d), x, y, {}, test_size)
+            max_depth=int(max_d)), x, y, {}, test_size)
 
         self.x_train, self.x_test, self.y_train, self.y_test = train_test_split(
             self.x, self.y, test_size=self.test_size)
