@@ -13,8 +13,6 @@ Il progetto è stato realizzato dai seguenti studenti:
 
 ## Guida di installazione
 
-Per il corretto funzionamento del programma è necessaria una versione di python maggiore o uguale della 3.9
-
 Per installare le librerie necessarie, eseguire il seguente comando da terminale: `pip install -r requirements.txt`
 
 Per eseguire i classificatori, utilizzare il comando `python main_models.py` o eseguire il notebook Jupyter-lab.
