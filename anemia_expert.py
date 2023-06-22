@@ -204,31 +204,35 @@ class anemia_expert(KnowledgeEngine):
         self.prenota_farmaci("prenotazione farmaci", self.pharmacy_analysis)
 
     def prenota_farmaci(self, ask_text: str, pharmacy_selected: pharmacy_csp):
-        print(
-            "Vuoi prenotare farmaci presso una farmacia convenzionata? [si/no]")
+        print("Vuoi prenotare farmaci presso una farmacia convenzionata? [si/no]")
         response = str(input())
 
         while valid_response(response) == False:
-            print(
-                "Vuoi prenotare farmaci presso una farmacia convenzionata? [si/no]")
+            print("Vuoi prenotare farmaci presso una farmacia convenzionata? [si/no]")
             response = str(input())
 
         if response == "si":
-            choices = pharmacy_selected.prenota_farmaco()
+            farmaci_disponibili = pharmacy_selected.prenota_farmaco()
 
-            if len(choices) > 0:
+            if len(farmaci_disponibili) > 0:
+                print("Farmaci disponibili:\n")
+                for index, farmaco in enumerate(farmaci_disponibili):
+                    farmaco_nome, farmaco_quantita = farmaco
+                    print("%d. Farmaco: %s, Quantità: %d" % (index + 1, farmaco_nome, farmaco_quantita))
 
                 print("Inserisci il numero del farmaco da prenotare")
                 choice_input = int(input())
 
-                while choice_input < 1 or choice_input > len(choices):
+                while choice_input < 1 or choice_input > len(farmaci_disponibili):
                     print("Inserisci un numero valido")
                     choice_input = int(input())
 
-                selected_farmaco = choices[choice_input - 1]
-                print("Hai prenotato il farmaco: %s" % selected_farmaco)
+                selected_farmaco = farmaci_disponibili[choice_input - 1]
+                selected_farmaco_nome, selected_farmaco_quantita = selected_farmaco
+                print("Hai prenotato il farmaco: %s, Quantità: %d" % (selected_farmaco_nome, selected_farmaco_quantita))
             else:
                 print("Nessun farmaco disponibile.")
+
 
     @Rule(Fact(test_emoglobina="si"))
     def rule_3(self):

@@ -18,12 +18,13 @@ class pharmacy_csp(Problem):
             for index, solution in enumerate(self.availability):
                 farmaco = solution['farmaci']
                 quantita = solution['quantita']
-                choices.extend([farmaco] * quantita)
-                print("%d. Farmaco: %s, Quantità: %d" % (index + 1, farmaco, quantita))
+                choices.append((farmaco, quantita))
+                #print("%d. Farmaco: %s, Quantità: %d" % (index + 1, farmaco, quantita))
         else:
             print("Nessun farmaco disponibile.")
 
         return choices
+
 
 
     def stampa_soluzione(self):
